@@ -11,7 +11,14 @@ git_repository(
     name = "com_google_zetasql",
     tag = "2020.10.1",
     remote = "https://github.com/google/zetasql",
-    patches = ["@com_github_jkvarnefalk_bigsemantiq//bazel:zetasql_jni.patch"]
+    patches = [
+        # We have to patch the project to find the jni.h when imported. Inspired by how they do it in the tensorflow project.
+        # https://cs.opensource.google/tensorflow/tensorflow/+/master:tensorflow/lite/java/jni/BUILD;l=8?q=jni%20file:BUILD
+        "@com_github_jkvarnefalk_bigsemantiq//bazel:zetasql_jni.patch",
+        # The strings class has no implementations for the methods. Here is a patch from this PR:https://github.com/google/zetasql/pull/31
+        # that implements the necessary methods.
+        "@com_github_jkvarnefalk_bigsemantiq//bazel:zetasql_strings.patch",
+        ]
 )
 
 load("@com_google_zetasql//bazel:zetasql_deps_step_1.bzl", "zetasql_deps_step_1")
