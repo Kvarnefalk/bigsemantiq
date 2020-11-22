@@ -3,12 +3,20 @@
 #                                   External Deps                                       #
 ##########################################################################################
 
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+workspace(name = "com_github_jkvarnefalk_bigsemantiq")
 
-git_repository(
+#load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+#git_repository(
+    #name = "com_google_zetasql",
+    #tag = "2020.10.1",
+    #remote = "https://github.com/google/zetasql"
+#)
+
+new_local_repository(
     name = "com_google_zetasql",
-    tag = "2020.10.1",
-    remote = "https://github.com/google/zetasql"
+    path = "/Users/john/dev/google/zetasql",
+    build_file = "BUILD",
 )
 
 load("@com_google_zetasql//bazel:zetasql_deps_step_1.bzl", "zetasql_deps_step_1")
@@ -69,12 +77,3 @@ scalatest_repositories()
 
 scalatest_toolchain()
 
-protobuf_version="3.11.3"
-protobuf_version_sha256="cf754718b0aa945b00550ed7962ddc167167bd922b842199eeb6505e6f344852"
-
-http_archive(
-    name = "com_google_protobuf",
-    url = "https://github.com/protocolbuffers/protobuf/archive/v%s.tar.gz" % protobuf_version,
-    strip_prefix = "protobuf-%s" % protobuf_version,
-    sha256 = protobuf_version_sha256,
-)

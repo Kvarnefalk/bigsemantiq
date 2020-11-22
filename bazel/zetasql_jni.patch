@@ -1,0 +1,67 @@
+diff --git a/zetasql/jdk/BUILD b/zetasql/jdk/BUILD
+index 9f1f77f..bfd448d 100644
+--- a/zetasql/jdk/BUILD
++++ b/zetasql/jdk/BUILD
+@@ -17,30 +17,39 @@
+ 
+ licenses(["notice"])  # Apache v2.0
+ 
+-package(default_visibility = ["//zetasql/base:zetasql_implementation"])
++package(default_visibility = ["//visibility:public"])
+ 
+ cc_library(
+     name = "jni",
+-    srcs = [
+-        "@local_jdk//:jni_header",
+-    ] + select({
+-        "@bazel_tools//src/conditions:darwin": ["@local_jdk//:jni_md_header-darwin"],
+-        "@bazel_tools//src/conditions:linux_x86_64": ["@local_jdk//:jni_md_header-linux"],
+-    }),
+-    copts = [
+-        "-Wno-char-subscripts",
+-        "-Wno-return-type",
+-        "-Wno-sign-compare",
+-        "-Wno-switch",
+-        "-Wno-unused-but-set-parameter",
+-        "-Wno-unused-function",
+-        "-Wnonnull-compare",
++    hdrs = [
++        ":jni.h",
++        ":jni_md.h",
+     ],
+-    includes = [
+-        "../../external/local_jdk/include",
+-    ] + select({
+-        "@bazel_tools//src/conditions:darwin": ["../../external/local_jdk/include/darwin"],
+-        "@bazel_tools//src/conditions:linux_x86_64": ["../../external/local_jdk/include/linux"],
+-    }),
+-    linkstatic = 1,
++    includes = [ "." ],
+ )
++
++# Silly rules to make
++# #include <jni.h>
++# in the source headers work
++# (in combination with the "includes" attribute of the tf_cuda_library rule
++# above. Not needed when using the Android toolchain).
++#
++# Inspired from:
++# https://github.com/bazelbuild/bazel/blob/f99a0543f8d97339d32075c7176b79f35be84606/src/main/native/BUILD
++# but hopefully there is a simpler alternative to this.
++genrule(
++    name = "copy_jni_h",
++    srcs = ["@bazel_tools//tools/jdk:jni_header"],
++    outs = ["jni.h"],
++    cmd = "cp -f $< $@",
++)
++
++genrule(
++    name = "copy_jni_md_h",
++    srcs = select({
++        "@bazel_tools//src/conditions:darwin": ["@bazel_tools//tools/jdk:jni_md_header-darwin"],
++        "@bazel_tools//src/conditions:linux_x86_64": ["@bazel_tools//tools/jdk:jni_md_header-linux"],
++    }),
++    outs = ["jni_md.h"],
++    cmd = "cp -f $< $@",
++)
+\ No newline at end of file
