@@ -5,18 +5,13 @@
 
 workspace(name = "com_github_jkvarnefalk_bigsemantiq")
 
-#load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-#git_repository(
-    #name = "com_google_zetasql",
-    #tag = "2020.10.1",
-    #remote = "https://github.com/google/zetasql"
-#)
-
-new_local_repository(
+git_repository(
     name = "com_google_zetasql",
-    path = "/Users/john/dev/google/zetasql",
-    build_file = "BUILD",
+    tag = "2020.10.1",
+    remote = "https://github.com/google/zetasql",
+    patches = ["@com_github_jkvarnefalk_bigsemantiq//bazel:zetasql_jni.patch"]
 )
 
 load("@com_google_zetasql//bazel:zetasql_deps_step_1.bzl", "zetasql_deps_step_1")

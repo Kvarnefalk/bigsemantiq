@@ -1,7 +1,5 @@
-diff --git a/zetasql/jdk/BUILD b/zetasql/jdk/BUILD
-index 9f1f77f..bfd448d 100644
---- a/zetasql/jdk/BUILD
-+++ b/zetasql/jdk/BUILD
+--- zetasql/jdk/BUILD
++++ zetasql/jdk/BUILD
 @@ -17,30 +17,39 @@
  
  licenses(["notice"])  # Apache v2.0
