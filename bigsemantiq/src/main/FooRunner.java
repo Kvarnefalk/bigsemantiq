@@ -5,6 +5,7 @@ import com.google.zetasql.*;
 import com.google.zetasql.ZetaSQLType.ArrayTypeProto;
 import com.google.zetasql.ZetaSQLType.TypeKind;
 import com.google.zetasql.ZetaSQLType.TypeProto;
+import com.google.zetasql.resolvedast.ResolvedNodes;
 import com.google.zetasql.resolvedast.ResolvedNodes.ResolvedStatement;
 
 import java.util.ArrayList;
@@ -32,9 +33,11 @@ class FooRunner {
         AnalyzerOptions options = new AnalyzerOptions();
         Analyzer analyzer = new Analyzer(options, catalog);
 
-        String sql = "SELECT * FROM user_table;";
+        String sql = "SELECT * FROM user_table u1 INNER JOIN other_table u2 ON u1.user_id = u2.user_id;";
         ResolvedStatement statement = analyzer.analyzeStatement(sql);
         System.out.println(statement.debugString());
+        //List<List<String>> table_names = Analyzer.extractTableNamesFromStatement(sql);
+     //   System.out.println(table_names);
 
         int a = 2;
     }

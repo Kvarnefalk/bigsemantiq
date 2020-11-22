@@ -79,3 +79,10 @@ scalatest_repositories()
 
 scalatest_toolchain()
 
+## TODO: Needed from this issue https://github.com/bazelbuild/rules_scala/issues/768
+load("@io_bazel_rules_scala//scala_proto:toolchains.bzl", "scala_proto_register_toolchains")
+scala_proto_register_toolchains()
+
+load("@io_bazel_rules_scala//scala_proto:scala_proto.bzl", "scala_proto_repositories")
+scala_proto_repositories()
+
