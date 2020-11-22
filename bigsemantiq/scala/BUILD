@@ -22,7 +22,12 @@ scala_binary(
     srcs = glob(["*.scala"]),
     main_class = "bigsemantiq.scala.HelloWorld",
     deps = [
-        "//bigsemantiq/src/main:foo",
+        "@com_google_zetasql//java/com/google/zetasql:analyzer",
+        "@com_google_zetasql//java/com/google/zetasql:channel_provider",
+        "@com_google_zetasql//java/com/google/zetasql:client",
+        "@com_google_zetasql//java/com/google/zetasql:jni_channel",
+        "@com_google_zetasql//java/com/google/zetasql:types",
+        "@com_google_zetasql//java/com/google/zetasql/resolvedast",
         ":hello_proto"
     ],
 

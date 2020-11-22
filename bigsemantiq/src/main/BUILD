@@ -1,10 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-java_proto_library(
-    name = "foo_proto",
-    deps = [],
-)
-
 java_library(
     name = "foo",
     runtime_deps = [
