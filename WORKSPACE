@@ -74,9 +74,7 @@ load("@io_bazel_rules_scala//scala:scala.bzl", "scala_repositories")
 scala_repositories()
 
 load("@io_bazel_rules_scala//testing:scalatest.bzl", "scalatest_repositories", "scalatest_toolchain")
-
 scalatest_repositories()
-
 scalatest_toolchain()
 
 ## TODO: Needed from this issue https://github.com/bazelbuild/rules_scala/issues/768
